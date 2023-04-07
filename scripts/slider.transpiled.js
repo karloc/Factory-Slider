@@ -8,11 +8,27 @@ $(document).ready(function () {
   function left() {
     var lastImgT = topRow.children().first();
     var lastImgB = bottomRow.children().first();
-    lastImgT.hide(100, "linear", function () {
-      lastImgT.appendTo(topRow).fadeIn(500);
+    var lastImgTW = lastImgT.outerWidth();
+    var lastImgBW = lastImgB.outerWidth();
+    var imgsT = $('.top-row img');
+    lastImgT.hide();
+    imgsT.animate({
+      marginLeft: -lastImgTW,
+      marginRight: lastImgTW + 10
+    }, 400, 'linear', function () {
+      lastImgT.appendTo(topRow).fadeIn(400);
+      imgsT.css('margin-left', 0);
+      imgsT.css('margin-right', 10);
     });
-    lastImgB.hide(100, "linear", function () {
-      lastImgB.appendTo(bottomRow).fadeIn(500);
+    var imgsB = $('.bottom-row img');
+    lastImgB.hide();
+    imgsB.animate({
+      marginLeft: -lastImgBW,
+      marginRight: lastImgBW + 10
+    }, 400, 'linear', function () {
+      lastImgB.appendTo(bottomRow).fadeIn(400);
+      imgsB.css('margin-left', 0);
+      imgsB.css('margin-right', 10);
     });
   }
   function right() {
@@ -29,8 +45,14 @@ $(document).ready(function () {
       firstImgB.prependTo(bottomRow).show("fast");
     });
   }
+  var delay = 400;
+  var timer = null;
+  function btnHandler() {
+    clearTimeout(timer);
+    timer = setTimeout(left, delay);
+  }
   prevBtn.on('click', function () {
-    left();
+    btnHandler();
   });
   nextBtn.on('click', function () {
     right();
